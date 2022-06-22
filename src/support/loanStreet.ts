@@ -1,11 +1,11 @@
 import axios from "axios";
 import { CreateLoanData, Loan } from "../types";
 
-const isDev = true;
+const isDev = false;
 
 export const apiUrl = isDev
   ? "http://localhost:3001"
-  : "https://api.loanstreet.com";
+  : "http://31a561ecba05.ngrok.io";
 
 const config = {
   headers: {
