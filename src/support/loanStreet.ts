@@ -5,7 +5,7 @@ const isDev = false;
 
 export const apiUrl = isDev
   ? "http://localhost:3001"
-  : "https://31a561ecba05.ngrok.io";
+  : "https://shrouded-lake-30677.herokuapp.com";
 
 const config = {
   headers: {
