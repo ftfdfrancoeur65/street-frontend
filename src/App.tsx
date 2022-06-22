@@ -1,59 +1,58 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-import { getLoans } from "./support/loanStreet";
-import { Container } from "@mui/material";
+import Home from "./pages/Home";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Container, Tab, Tabs } from "@mui/material";
+import CreateLoanForm from "./pages/CreateLoanForm";
+import UpdateLoanForm from "./pages/UpdateLoanForm";
 
-interface Loan {
-  id: string;
-  amount: string;
-  interest_rate: string;
-  loan_term_in_months: string;
-  monthly_interest_amount: string;
+interface LinkTabProps {
+  label?: string;
+  href?: string;
 }
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "amount", headerName: "Amount", width: 130 },
-  { field: "interest_rate", headerName: "Interest Rate", width: 130 },
-  {
-    field: "loan_term_in_months",
-    headerName: "Loan Term (Months)",
-    width: 130,
-  },
-  {
-    field: "monthly_interest_amount",
-    headerName: "Monthly Interest Amount",
-    width: 130,
-  },
-];
+function LinkTab(props: LinkTabProps) {
+  return (
+    <Tab
+      component="a"
+      onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        // event.preventDefault();
+      }}
+      {...props}
+    />
+  );
+}
 
 function App() {
-  const [loans, setLoans] = React.useState<Array<Loan>>([]);
+  const [value, setValue] = React.useState(0);
 
-  useEffect(() => {
-    getLoans().then((newLoans) => setLoans(newLoans));
-  }, []);
-
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
   return (
     <div className="App">
       <Container>
-        <div className="row">
-          <div className="col-md-12">
-            <h1>Loan Street</h1>
-            <h2>All the loans</h2>
+        <Router>
+          <div>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="nav tabs example"
+            >
+              <LinkTab label="Loans" href="/" />
+              <LinkTab label="Create Loan" href="/create" />
+            </Tabs>
 
-            <div style={{ height: 400, width: "80%" }}>
-              <DataGrid
-                rows={loans}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[10]}
-              />
-            </div>
+            {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/create" element={<CreateLoanForm />} />
+              <Route path="/loan/:id" element={<UpdateLoanForm />} />
+            </Routes>
           </div>
-        </div>
+        </Router>
       </Container>
     </div>
   );
