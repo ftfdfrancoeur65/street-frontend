@@ -5,7 +5,7 @@ const isDev = false;
 
 export const apiUrl = isDev
   ? "http://localhost:3001"
-  : "http://31a561ecba05.ngrok.io";
+  : "https://31a561ecba05.ngrok.io";
 
 const config = {
   headers: {
